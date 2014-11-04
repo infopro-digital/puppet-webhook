@@ -3,9 +3,7 @@ require 'json'
 
 # User customization
 repo_puppetfile = "<%= @repo_puppetfile %>"
-<% if @repo_hieradata -%>
-repo_hierdata   = "<%= @repo_hieradata %>"
-<% end -%>
+repo_hieradata  = "<%= @repo_hieradata %>"
 
 post '/payload' do
   push = JSON.parse(request.body.read)
@@ -20,8 +18,8 @@ post '/payload' do
   logger.info("repo ref = #{repo_ref}")
   logger.info("branch = #{branchName}")
 
-  # Check if repo_name is 'puppetfile'
-  if #{repo_name} == #{repo_puppetfile} <% if @repo_hieradata %>|| #{repo_name} == #{repo_hieradata}<% end %>
+  # Check if the repository contains Puppetfile or hieradata
+  if repo_name == repo_puppetfile || repo_name == repo_hieradata
     logger.info("Deploy r10k for this environment #{branchName}")
     deployEnv(branchName)
   else
