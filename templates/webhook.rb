@@ -14,7 +14,7 @@ post '/payload' do
   repo_ref    = push['ref']
   ref_array   = repo_ref.split("/")
   ref_type    = ref_array[1]
-  branch_name  = ref_array[2]
+  branch_name = ref_array[2]
   logger.info("repo name = #{repo_name}")
   logger.info("repo ref = #{repo_ref}")
   logger.info("branch = #{branch_name}")
