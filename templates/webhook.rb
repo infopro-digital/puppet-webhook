@@ -1,11 +1,12 @@
 require 'sinatra'
 require 'json'
 
-# User customization
-repo_puppetfile = "<%= @repo_puppetfile %>"
-repo_hieradata  = "<%= @repo_hieradata %>"
 
 post '/payload' do
+  # User customization
+  repo_puppetfile = "<%= @repo_puppetfile %>"
+  repo_hieradata  = "<%= @repo_hieradata %>"
+
   push = JSON.parse(request.body.read)
   logger.info("json payload: #{push.inspect}")
 
@@ -20,11 +21,10 @@ post '/payload' do
 
   # Check if the repository contains Puppetfile or hieradata
   if repo_name == repo_puppetfile || repo_name == repo_hieradata
-    logger.info("Deploy r10k for this environment #{branch_name}")
+    logger.info("Deploying r10k for environment '#{branch_name}'")
     deploy_env(branch_name)
   else
-    logger.info("Deploy puppet module #{repo_name}")
-    logger.info("Running for branch #{branch_name}")
+    logger.info("Deploying puppet module '#{repo_name}' from branch '#{branch_name}'")
     deploy_module(repo_name)
   end
 end
